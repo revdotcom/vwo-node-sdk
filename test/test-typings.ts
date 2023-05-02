@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as vwoSDK from 'vwo-node-sdk';
+import * as vwoSDK from '@revdotcom/vwo-node-sdk';
 
 let settings: object = vwoSDK.getSettingsFile('accountId', 'apikey');
 
@@ -91,7 +91,7 @@ let isGoalTracked: Record<string, boolean> = vwoInstance.track(
 let optOut = vwoInstance.setOptOut();
 
 let isPostDimensionPushed = vwoInstance.push('tagKey', 'tagValue', 'userId');
-vwoInstance.push({'a': 'a'}, 'userId');
+vwoInstance.push({ a: 'a' }, 'userId');
 
 ///flush batch events manually
 

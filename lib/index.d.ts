@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-declare module 'vwo-node-sdk' {
+declare module '@revdotcom/vwo-node-sdk' {
   /** Fetches the latest settings file from the VWO servers.
    *
    * @param accountId   AccountId associated with the VWO account.
@@ -22,7 +22,11 @@ declare module 'vwo-node-sdk' {
    *
    * @returns           Settings file.
    */
-  export function getSettingsFile(accountId: string, apiKey: string, userStorageService?: VWOUserStorageConfig): Promise<object>;
+  export function getSettingsFile(
+    accountId: string,
+    apiKey: string,
+    userStorageService?: VWOUserStorageConfig
+  ): Promise<object>;
 
   /**
    * Creates an instance of the VWO
@@ -115,7 +119,7 @@ declare module 'vwo-node-sdk' {
      */
     push(tagKey: string, tagValue: string, userId: string): boolean;
 
-     /**
+    /**
      * This API method: Opt-out the user from VWO i.e APIs exposed on vwoInstance will not work anymore
      */
     setOptOut(): boolean;
@@ -168,7 +172,11 @@ declare module 'vwo-node-sdk' {
      *
      * @returns                 If variation is assigned then variation-name otherwise null in case of user not becoming part
      */
-    getVariationName(campaignKey: string, userId: string, options?: VWOApiOptions): Promise<string | null> | string | null;
+    getVariationName(
+      campaignKey: string,
+      userId: string,
+      options?: VWOApiOptions
+    ): Promise<string | null> | string | null;
 
     /**
      * This API method: Marks the conversion of the campaign for a particular goal.
@@ -224,7 +232,7 @@ declare module 'vwo-node-sdk' {
      */
     push(tagKey: string, tagValue: string, userId: string): Promise<boolean> | boolean;
 
-     /**
+    /**
      * This API method: Pushes the key-value tag pair for a particular user
      *
      * @param customDimensionMap    A Map containing multiple Sustom Dimensions
@@ -233,7 +241,6 @@ declare module 'vwo-node-sdk' {
      * @returns                     true if request is pushed to eventQueue, false if params are invalid or settings file is unavailable
      */
     push(customDimensionMap: Record<string, string>, userId: string): Promise<boolean> | boolean;
-
 
     /**
      * This API method: Opt-out the user from VWO i.e APIs exposed on vwoInstance will not work anymore
@@ -395,7 +402,6 @@ declare module 'vwo-node-sdk' {
     returnPromiseFor: VWOAsyncConfig;
   }
 
-
   /**
    * Event batching configuration to be passed at the time of VWO instantiation.
    */
@@ -463,16 +469,16 @@ declare module 'vwo-node-sdk' {
 
   export interface VWOAsyncConfig {
     // If you want only specific APIs to return the promise, configure only them
-    activate?: boolean,
-    getVariationName?: boolean,
-    track?: boolean,
-    isFeatureEnabled?: boolean,
-    getFeatureVariableValue?: boolean,
-    push?: boolean,
+    activate?: boolean;
+    getVariationName?: boolean;
+    track?: boolean;
+    isFeatureEnabled?: boolean;
+    getFeatureVariableValue?: boolean;
+    push?: boolean;
 
     // If you want all the above APIs to return promise or not, only configure the below key
     // By default, all APIs simply return a value without waiting for any asycnhornous call originating from specific APIs
-    all?: boolean
+    all?: boolean;
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@revdotcom/vwo-node-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Rev.com fork of VWO Node SDK with fixes for Next.js middleware usage",
   "scripts": {
     "build": "yarn build:dev && yarn build:prod",

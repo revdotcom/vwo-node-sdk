@@ -1,5 +1,5 @@
 /*!
- * vwo-javascript-sdk - v1.42.0
+ * vwo-javascript-sdk - v0.0.1
  * URL - https://github.com/wingify/vwo-node-sdk
  * 
  * Copyright 2019-2022 Wingify Software Pvt. Ltd.
@@ -2027,7 +2027,7 @@ var packageFile = {}; // For javascript-sdk, to keep the build size low
 if (true) {
   packageFile = {
     name: "vwo-javascript-sdk",
-    version: "1.42.0"
+    version: "0.0.1"
   };
 } else {}
 
@@ -5632,7 +5632,7 @@ var EventDispatcher = {
       // Require files only if required in respective Engine i.e. Node / Browser
       if (true) {
         if (typeof XMLHttpRequest === 'undefined') {
-          __webpack_require__(/*! ./FetchUtil */ "./lib/utils/FetchUtil.js").send({
+          return __webpack_require__(/*! ./FetchUtil */ "./lib/utils/FetchUtil.js").send({
             method: 'POST',
             url: "".concat(properties.url).concat(queryParams),
             payload: payload
@@ -5653,7 +5653,7 @@ var EventDispatcher = {
           });
         }
 
-        __webpack_require__(/*! ./XhrUtil */ "./lib/utils/XhrUtil.js").send({
+        return __webpack_require__(/*! ./XhrUtil */ "./lib/utils/XhrUtil.js").send({
           method: 'POST',
           url: "".concat(properties.url).concat(queryParams),
           payload: payload
@@ -5682,7 +5682,7 @@ var EventDispatcher = {
       }));
     }
 
-    return false;
+    return Promise.resolve(false);
   },
   handlePostResponse: function handlePostResponse(properties, payload, error) {
     var endPoint = properties.url;
@@ -5955,25 +5955,35 @@ var FetchUtil = {
         };
 
         if (method === 'POST') {
-          options.body = payload;
+          options.body = JSON.stringify(payload);
         }
 
         return fetch(url, options).then(function (res) {
-          var jsonData = res.json();
+          // Some endpoints return empty strings as the response body; treat
+          // as raw text and handle potential JSON parsing errors below
+          return res.text().then(function (text) {
+            var jsonData = {};
 
-          if (userStorageService && isObject(userStorageService) && isFunction(userStorageService.setSettings)) {
-            userStorageService.setSettings(jsonData);
-          }
+            try {
+              jsonData = JSON.parse(text);
+            } catch (err) {
+              console.error("VWO-SDK - [ERROR]: ".concat(getCurrentTime(), " Error parsing JSON response: ").concat(err));
+            }
 
-          console.log(res.status);
+            if (userStorageService && isObject(userStorageService) && isFunction(userStorageService.setSettings)) {
+              userStorageService.setSettings(jsonData);
+            }
 
-          if (res.status === 200) {
-            resolve(jsonData);
-          } else {
-            var error = "VWO-SDK - [ERROR]: ".concat(getCurrentTime(), " Request failed for fetching account settings. Got Status Code: ").concat(res.status);
-            console.error(error);
-            reject(error);
-          }
+            console.log(res.status);
+
+            if (res.status === 200) {
+              resolve(jsonData);
+            } else {
+              var error = "VWO-SDK - [ERROR]: ".concat(getCurrentTime(), " Request failed for fetching account settings. Got Status Code: ").concat(res.status);
+              console.error(error);
+              reject(error);
+            }
+          });
         })["catch"](function (err) {
           var error = "VWO-SDK - [ERROR]: ".concat(getCurrentTime(), " Request failed for fetching account settings. Got Status Code: ").concat(err);
           console.error(error);

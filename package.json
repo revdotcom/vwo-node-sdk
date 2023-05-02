@@ -1,7 +1,7 @@
 {
-  "name": "vwo-node-sdk",
-  "version": "1.43.0",
-  "description": "VWO Node SDK for server-side Testing",
+  "name": "@revdotcom/vwo-node-sdk",
+  "version": "0.0.1",
+  "description": "Rev.com fork of VWO Node SDK with fixes for Next.js middleware usage",
   "scripts": {
     "build": "yarn build:dev && yarn build:prod",
     "build:dev": "webpack --mode=development",
@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wingify/vwo-node-sdk"
+    "url": "https://github.com/revdotcom/vwo-node-sdk"
   },
   "author": "dev@wingify.com",
   "license": "Apache-2.0",

@@ -1,5 +1,5 @@
 /*!
- * vwo-javascript-sdk - v0.0.1
+ * vwo-javascript-sdk - v0.0.3
  * URL - https://github.com/wingify/vwo-node-sdk
  * 
  * Copyright 2019-2022 Wingify Software Pvt. Ltd.
@@ -2026,14 +2026,20 @@ var packageFile = {}; // For javascript-sdk, to keep the build size low
 
 if (true) {
   packageFile = {
+    // Hard-coded to "vwo-javascript-sdk", so we can keep as-is
     name: "vwo-javascript-sdk",
-    version: "0.0.1"
+    // Not used; see below
+    version: "0.0.3"
   };
 } else {}
 
 module.exports = {
   SDK_NAME: packageFile.name,
-  SDK_VERSION: packageFile.version,
+  // SDK_VERSION is sent to the API in getSettingsFile(); settings file format
+  // depends on SDK version; this forked repo is based on version 1.42.0 of
+  // offical package, so API must return correct format for that version in
+  // order for the settings file to pass validation
+  SDK_VERSION: '1.42.0',
   PLATFORM: 'server',
   SEED_VALUE: 1,
   MAX_TRAFFIC_PERCENT: 100,
